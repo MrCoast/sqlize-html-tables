@@ -1,0 +1,10 @@
+version: '3'
+services:
+    webserver:
+        image: sebp/lighttpd
+        depends_on:
+            - webpack
+    webpack:
+        image: jmfirth/webpack
+        volumes:
+            - ./front:/app

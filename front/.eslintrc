@@ -1,0 +1,93 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+
+    "rules": {
+        // Code style
+        "array-bracket-spacing": "error",
+        "brace-style": "error",
+        "camelcase": "error",
+        "comma-dangle": ["error", "always-multiline"],
+        "curly": ["error", "all"],
+        "dot-location": ["error", "property"],
+        "dot-notation": "error",
+        "eol-last": "error",
+        "func-call-spacing": "error",
+        "indent": ["error", 4, {"SwitchCase": 1}],
+        "key-spacing": "error",
+        "keyword-spacing": "error",
+        "lines-around-directive": "error",
+        // "max-len": ["error", 120], (too much code to fix, disabled for now)
+        "no-duplicate-imports": "error",
+        "no-empty": ["error", {"allowEmptyCatch": true}],
+        "no-mixed-spaces-and-tabs": "error",
+        "no-multi-spaces": "error",
+        "no-multi-str": "error",
+        "no-multiple-empty-lines": ["error", {"max": 1}],
+        "no-throw-literal": "error",
+        "no-trailing-spaces": "error",
+        // it triggers on a lot of our regular expressions, it's better to leave them intact
+        "no-useless-escape": "off",
+        "one-var": ["error", "never"],
+        "object-curly-spacing": ["error", "always"],
+        "object-shorthand": "error",
+        "padded-blocks": ["error", "never"],
+        "quote-props": ["error", "consistent"],
+        "quotes": ["error", "single"],
+        "semi": "error",
+        "space-before-blocks": "error",
+        "space-before-function-paren": ["error", {"anonymous": "always", "named": "never"}],
+        "space-in-parens": "error",
+        "space-infix-ops": "error",
+        "space-unary-ops": "error",
+        "spaced-comment": "error",
+        "yoda": ["error", "never", {"onlyEquality": true}],
+
+        // Possible mistakes
+        "eqeqeq": "error",
+        "no-extra-bind": "error",
+        "no-implicit-coercion": ["error", {"boolean": false, "string": false, "number": true}],
+        "no-labels": "error",
+        "no-self-compare": "error",
+        "no-sequences": "error",
+        "no-unneeded-ternary": "error",
+        "no-unused-expressions": "error",
+        "no-unused-vars": ["error", {"vars": "all", "args": "none"}],
+        "no-with": "error",
+        "radix": ["error", "always"],
+
+        "react/jsx-boolean-value": "error",
+        "react/jsx-closing-bracket-location": "error",
+        "react/jsx-closing-tag-location": "error",
+        "react/jsx-first-prop-new-line": "error",
+        "react/jsx-wrap-multilines": "error",
+        "react/no-did-update-set-state": "error",
+        "react/no-find-dom-node": "off",
+        "react/no-render-return-value": "off",
+        "react/no-string-refs": "off",
+        "react/no-unescaped-entities": "off",
+        "react/self-closing-comp": ["error", {"html": false}],
+        "react/sort-comp": "error"
+    },
+
+    "plugins": [
+        "react"
+    ],
+
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+
+    "env": {
+        "browser": true,
+        "node": true,
+        "amd": true,
+        "es6": true
+    }
+}

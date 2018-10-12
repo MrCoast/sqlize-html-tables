@@ -1,0 +1,27 @@
+version: '3'
+services:
+    webserver:
+        command: lighttpd -D -f /etc/lighttpd/lighttpd.conf
+        volumes:
+            - ./webserver/htdocs:/var/www/sqlize-html-tables/htdocs
+            - ./webserver/lighttpd:/etc/lighttpd
+        environment:
+            - ASSETS_HOST=http://192.168.10.6:3000
+            - DEV_ENVIRONMENT=1
+        networks:
+            sqlize-html-tables:
+                ipv4_address: 192.168.10.5
+    webpack:
+        command: >
+            bash -c "sed -e 's/%apiUrl%/http:\/\/192.168.10.10/g' /app/config/app/config.ts.template > /app/config/app/config.ts
+            && npm install && npm run build-dev-dll && npm run start-app"
+        networks:
+            sqlize-html-tables:
+                ipv4_address: 192.168.10.6
+networks:
+    sqlize-html-tables:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 192.168.10.0/24

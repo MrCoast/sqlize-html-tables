@@ -1,0 +1,60 @@
+@mixin inverted-gradient(
+    $_color-first: $color-3-1,
+    $_color-second: $color-3-2,
+    $_rotate: 135deg,
+    $_box-shadow__params: 0 16px 43px -5px
+) {
+    & {
+        background: linear-gradient($_rotate, $_color-first 0%, $_color-first 30%, $_color-second 60%, $_color-second 100%);
+        box-shadow: $_box-shadow__params rgba($_color-first, .5);
+        transition: transform .3s ease-in-out;
+    }
+
+    &:before {
+        border-radius: inherit;
+        background: linear-gradient($_rotate, $_color-second 100%, $_color-first 0);
+        box-shadow: $_box-shadow__params rgba($_color-second, .5);
+        content: '';
+        display: block;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        width: 100%;
+        z-index: 0;
+        transition: opacity .9s ease-in-out, box-shadow .3s ease-in-out;
+    }
+
+    &:hover{
+        & {
+            transform: scale(1.02);
+        }
+
+        &:before {
+            opacity: 1;
+            z-index: 1;
+        }
+    }
+}
+
+@mixin centred-content($vertical, $horizontal, $fixed: false) {
+    @if ( $fixed == true ) {
+        position: fixed;
+    }  @else {
+        position: absolute;
+    }
+    @if ( $vertical == true and $horizontal == true) {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    } @else if ($vertical == true and $horizontal == false) {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    } @else if ($vertical == false and $horizontal == true) {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
