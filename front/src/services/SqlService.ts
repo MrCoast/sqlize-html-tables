@@ -4,7 +4,12 @@ import HtmlTableDataSource from 'database/HtmlTableDataSource';
 
 class SqlService {
     constructor() {
-        const importDataService = new ImportDataService(new HtmlTableDataSource());
+        setTimeout(() => this.init(), 1000);
+    }
+
+    public init() {
+        const htmlTable = document.getElementById('test-table') as HTMLTableElement;
+        const importDataService = new ImportDataService(new HtmlTableDataSource(htmlTable));
         importDataService.importData();
     }
 

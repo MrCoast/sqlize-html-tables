@@ -5,7 +5,7 @@ export function generateCreateTableSQL(tableName: string, columnDefinitions: ICo
         .map((columnDefinition) => `${columnDefinition.columnName} ${columnDefinition.columnType}`)
         .join(', ');
 
-    return `CREATE TABLE ${tableName} (${columnsPart});`;
+    return `DROP TABLE IF EXISTS ${tableName}; CREATE TABLE ${tableName} (${columnsPart});`;
 }
 
 

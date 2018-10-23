@@ -8,7 +8,7 @@ class App extends React.Component {
                 <h1>SQLize HTML tables</h1>
                 <SqlRunner />
 
-                <table className="test-table">
+                <table id="test-table" className="test-table">
                     <thead>
                         <tr>
                             <td>First Name</td>
