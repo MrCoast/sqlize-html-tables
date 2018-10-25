@@ -9,16 +9,16 @@
   },
   "keywords": [],
   "dependencies": {
-    "react": "16.3.1",
-    "react-dom": "16.3.1",
+    "react": "~16.3",
+    "react-dom": "~16.3",
     "react-responsive-modal": "^3.4.0",
     "sql.js": "github:kripken/sql.js"
   },
   "devDependencies": {
     "@types/node": "^10.11.7",
-    "@types/prop-types": "^15.5.2",
-    "@types/react": "16.3.14",
-    "@types/react-dom": "16.0.3",
+    "@types/prop-types": "15.5.3",
+    "@types/react": "~16.3",
+    "@types/react-dom": "~16.0",
     "@types/webpack-env": "^1.13.2",
     "awesome-typescript-loader": "~3.3",
     "babel-core": "~6.26",

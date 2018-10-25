@@ -57,7 +57,7 @@ class SqlRunner extends React.PureComponent<ISqlRunnerProps, ISqlRunnerState> {
 
             this.setState({
                 isModalOpen: true,
-                selectResult
+                selectResult,
             });
         } catch (e) {
             console.error(e);

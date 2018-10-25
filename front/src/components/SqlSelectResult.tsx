@@ -50,11 +50,11 @@ class SqlSelectResult extends React.PureComponent<ISqlSelectResultProps> {
     private renderRow(values: any[], index: number = 0) {
         return (
             <tr key={index}>
-                {values.map((value, index) =>
-                    <td key={index}>
+                {values.map((value, cellIndex) => (
+                    <td key={cellIndex}>
                         {value === null ? '(NULL)' : value}
                     </td>
-                )}
+                ))}
             </tr>
         );
     }

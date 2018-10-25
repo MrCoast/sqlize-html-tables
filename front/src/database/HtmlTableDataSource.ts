@@ -26,7 +26,8 @@ export default class HtmlTableDataSource implements IDataSource {
             if (this.tableElement.tHead && this.tableElement.tHead.rows[0]) {
                 const cells = this.tableElement.tHead.rows[0].cells;
                 const theadSummary = domHelpers
-                    .mapHtmlCollection(cells, (cell) => cell.innerText)
+                    .htmlCollectionToArray(cells)
+                    .map((cell: HTMLTableDataCellElement) => cell.innerText)
                     .join(' ');
 
                 if (stringHelpers.isMeaningfullString(theadSummary)) {
@@ -49,11 +50,11 @@ export default class HtmlTableDataSource implements IDataSource {
         });
 
         if (this.tableElement.tHead && this.tableElement.tHead.rows[0]) {
-            return domHelpers.mapHtmlCollection(this.tableElement.tHead.rows[0].cells, convertCellIntoColumnDefinition);
+            return domHelpers.htmlCollectionToArray(this.tableElement.tHead.rows[0].cells).map(convertCellIntoColumnDefinition);
         }
 
         if (this.tableElement.rows[0]) {
-            return domHelpers.mapHtmlCollection(this.tableElement.rows[0].cells, convertCellIntoColumnDefinition);
+            return domHelpers.htmlCollectionToArray(this.tableElement.rows[0].cells).map(convertCellIntoColumnDefinition);
         }
 
         return [];
@@ -75,12 +76,14 @@ export default class HtmlTableDataSource implements IDataSource {
 
     public getData(): any[][] {
         const shouldSkipFirstRow = !(this.tableElement.tHead && this.tableElement.tHead.rows[0]);
-        const rows = shouldSkipFirstRow
-            ? domHelpers.htmlCollectionToArray(this.tableElement.rows).splice(0, 1)
-            : this.tableElement.rows;
+        let rows = domHelpers.htmlCollectionToArray(this.tableElement.rows);
 
-        return domHelpers.mapHtmlCollection(rows, (row: HTMLTableRowElement) => (
-            domHelpers.mapHtmlCollection(row.cells, (cell) => cell.innerText)
+        if (shouldSkipFirstRow) {
+            rows = rows.splice(0, 1);
+        }
+
+        return rows.map((row: HTMLTableRowElement) => (
+            domHelpers.htmlCollectionToArray(row.cells).map((cell) => cell.innerText)
         ));
 //        return [
 //            [1, 'Victor', 'K'],
