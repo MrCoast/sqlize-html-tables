@@ -1,0 +1,13 @@
+{
+    "env": {
+        "jasmine": true
+    },
+
+    "globals": {
+        "createContext": true
+    },
+
+    "rules": {
+        "max-len": 0
+    }
+}

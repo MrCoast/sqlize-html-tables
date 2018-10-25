@@ -47,11 +47,47 @@ module.exports = function (grunt) {
                 ],
             },
         },
+
+        karma: {
+            'all': {
+                configFile: 'config/karma/all-tests/karma.conf.js',
+                browsers: ['PhantomJS'],
+            },
+            'all-firefox': {
+                configFile: 'config/karma/all-tests/karma.conf.js',
+                browsers: ['Firefox'],
+                client: {
+                    watch: grunt.option('watch'),
+                },
+            },
+
+            /*
+             * Regexp which will be used to filter test files
+             * Example:
+             * grunt karma:custom --filter=MyModule.spec.js
+             */
+            'custom': {
+                configFile: 'config/karma/custom-tests/karma.conf.js',
+                browsers: ['PhantomJS'],
+                client: {
+                    filterRegexp: grunt.option('filter'),
+                },
+            },
+            'custom-firefox': {
+                configFile: 'config/karma/custom-tests/karma.conf.js',
+                browsers: ['Firefox'],
+                client: {
+                    filterRegexp: grunt.option('filter'),
+                    watch: grunt.option('watch'),
+                },
+            },
+        },
     });
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-tslint');
+    grunt.loadNpmTasks('grunt-karma');
 
     /**
      * Override the default task to prompt what to do

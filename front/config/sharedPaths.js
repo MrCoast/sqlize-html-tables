@@ -10,6 +10,7 @@ const DIST_PATH = path.resolve(ROOT_PATH, 'dist');
 const BOOTSTRAP_FILES_PATH = path.resolve(SOURCE_PATH, 'bootstrap');
 const SASS_PATH = path.resolve(ROOT_PATH, 'scss');
 const TYPINGS_PATH = path.resolve(ROOT_PATH, 'typings');
+const TESTS_PATH = path.resolve(ROOT_PATH, 'test');
 
 module.exports = {
     ROOT_PATH,
@@ -20,4 +21,5 @@ module.exports = {
     BOOTSTRAP_FILES_PATH,
     SASS_PATH,
     TYPINGS_PATH,
+    TESTS_PATH
 };

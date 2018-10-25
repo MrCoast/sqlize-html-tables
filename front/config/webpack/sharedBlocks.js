@@ -15,6 +15,7 @@ const {
     BOOTSTRAP_FILES_PATH,
     SASS_PATH,
     TYPINGS_PATH,
+    TESTS_PATH,
 } = require('../sharedPaths.js');
 
 function devEntrypoint() {
@@ -96,6 +97,7 @@ function babelLoader() {
                 test: /\.(js|jsx)$/,
                 include: [
                     SOURCE_PATH,
+                    TESTS_PATH,
                 ],
                 use: {
                     loader: 'babel-loader',
@@ -249,6 +251,7 @@ function devConfig() {
 }
 
 module.exports = {
+    basicConfigWithDllReference,
     resolveAliases,
     basicConfig,
     devConfig,
