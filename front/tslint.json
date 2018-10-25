@@ -64,6 +64,8 @@
                 "check-type-operator",
                 "check-rest-spread"
             ]
-        }
+        },
+        "prefer-for-of": false,
+        "no-console": [true, "log"]
     }
 }

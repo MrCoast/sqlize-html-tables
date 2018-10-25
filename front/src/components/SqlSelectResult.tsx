@@ -4,7 +4,7 @@ import sql from 'sql.js';
 
 interface ISqlSelectResultProps {
     className?: string;
-    selectResult: sql.DatabaseSelectResult;
+    selectResult: sql.IDatabaseSelectResult;
 }
 
 class SqlSelectResult extends React.PureComponent<ISqlSelectResultProps> {

@@ -6,21 +6,6 @@ module.exports = function (grunt) {
     grunt.initConfig({
         params,
 
-        clean: [
-            'dist',
-        ],
-
-        run: {
-            'build-dev-dll': {
-                cmd: 'npm',
-                args: ['run', 'build-dev-dll'],
-            },
-            'build-prod': {
-                cmd: 'npm',
-                args: ['run', 'build-prod'],
-            },
-        },
-
         eslint: {
             options: {
                 cache: false,
@@ -67,7 +52,6 @@ module.exports = function (grunt) {
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-tslint');
-    grunt.loadNpmTasks('grunt-run');
 
     /**
      * Override the default task to prompt what to do

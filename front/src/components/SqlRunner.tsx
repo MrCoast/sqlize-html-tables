@@ -9,7 +9,7 @@ interface ISqlRunnerProps {
 
 interface ISqlRunnerState {
     isModalOpen: boolean;
-    selectResult: sql.DatabaseSelectResult | null;
+    selectResult: sql.IDatabaseSelectResult | null;
 }
 
 class SqlRunner extends React.PureComponent<ISqlRunnerProps, ISqlRunnerState> {

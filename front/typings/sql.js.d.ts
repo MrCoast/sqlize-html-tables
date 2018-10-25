@@ -1,13 +1,13 @@
 declare module 'sql.js' {
     namespace SQL {
-        export interface DatabaseSelectResult {
+        export interface IDatabaseSelectResult {
             columns: string[];
             values: any[][];
         }
 
         export class Database {
             public run(sql: string): void;
-            public exec(sql: string): DatabaseSelectResult[];
+            public exec(sql: string): IDatabaseSelectResult[];
         }
     }
 

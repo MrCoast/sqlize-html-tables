@@ -13,5 +13,5 @@ export function generateInsertDataSQL(tableName: string, data: any[][]) {
         .map((row) => (
             `INSERT INTO ${tableName} VALUES (${row.map((cell) => `'${cell}'`).join(', ')});`
         ))
-        .join(' ');
+        .join('\n');
 }
