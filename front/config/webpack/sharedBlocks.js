@@ -114,7 +114,7 @@ function babelLoader() {
     };
 }
 
-function typescriptLoader(transpileOnly = false) {
+function typescriptLoader(transpileOnly = false, useCache = true) {
     const plugins = transpileOnly ? [] : [new CheckerPlugin()];
 
     return {
@@ -130,7 +130,7 @@ function typescriptLoader(transpileOnly = false) {
                     loader: 'awesome-typescript-loader',
                     options: {
                         useBabel: true,
-                        useCache: true,
+                        useCache,
                         transpileOnly,
                         forceIsolatedModules: true,
                         babelOptions: {
@@ -211,6 +211,7 @@ function devSassToCss() {
 function basicConfig(options = {}) {
     const optionsWithDefaults = Object.assign({
         disableTypechecking: false,
+        useCache: true,
     }, options);
 
     return merge([
@@ -220,7 +221,7 @@ function basicConfig(options = {}) {
 
         loaderAliases(),
         babelLoader(),
-        typescriptLoader(optionsWithDefaults.disableTypechecking),
+        typescriptLoader(optionsWithDefaults.disableTypechecking, optionsWithDefaults.useCache),
 
         circularDependencyPlugin(),
         strictExportPresence(),

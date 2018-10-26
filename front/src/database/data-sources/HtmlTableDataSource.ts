@@ -1,4 +1,4 @@
-import { ColumnType, IColumnDefinition, IDataSource } from 'database/DataSource';
+import { ColumnType, IColumnDefinition, IDataSource } from './DataSource';
 import * as stringHelpers from 'helpers/StringHelpers';
 import * as domHelpers from 'helpers/DomHelpers';
 
@@ -58,20 +58,6 @@ export default class HtmlTableDataSource implements IDataSource {
         }
 
         return [];
-//        return [
-//            {
-//                columnName: 'id',
-//                columnType: ColumnType.int,
-//            },
-//            {
-//                columnName: 'first_name',
-//                columnType: ColumnType.varchar,
-//            },
-//            {
-//                columnName: 'last_name',
-//                columnType: ColumnType.varchar,
-//            },
-//        ];
     }
 
     public getData(): any[][] {
@@ -85,10 +71,5 @@ export default class HtmlTableDataSource implements IDataSource {
         return rows.map((row: HTMLTableRowElement) => (
             domHelpers.htmlCollectionToArray(row.cells).map((cell) => cell.innerText)
         ));
-//        return [
-//            [1, 'Victor', 'K'],
-//            [2, 'Ivan', 'Ivanov'],
-//            [3, 'Foo', 'Bar'],
-//        ];
     }
 }

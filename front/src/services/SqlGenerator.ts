@@ -1,4 +1,4 @@
-import { IColumnDefinition } from 'database/DataSource';
+import { IColumnDefinition } from 'database/data-sources//DataSource';
 
 export function generateCreateTableSQL(tableName: string, columnDefinitions: IColumnDefinition[]) {
     const columnsPart = columnDefinitions

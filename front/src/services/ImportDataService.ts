@@ -1,5 +1,5 @@
 import database from 'database/DatabaseWrapper';
-import { IDataSource } from 'database/DataSource';
+import { IDataSource } from 'database/data-sources/DataSource';
 import * as sqlGenerator from 'services/SqlGenerator';
 
 export default class ImportDataService {
