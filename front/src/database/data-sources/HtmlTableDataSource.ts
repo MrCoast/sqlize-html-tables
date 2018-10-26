@@ -29,9 +29,11 @@ export default class HtmlTableDataSource implements IDataSource {
     }
 
     public getColumnDefinitions(): IColumnDefinition[] {
-        const convertCellIntoColumnDefinition = (cell: HTMLTableDataCellElement) => ({
+        const convertCellIntoColumnDefinition = (cell: HTMLTableCellElement, columnIndex: number) => ({
             columnName: stringHelpers.textToSqlIdentifier(cell.innerText),
-            columnType: ColumnType.varchar,
+            columnType: this.parseHtmlTableService.isOnlyIntegerColumn(columnIndex)
+                ? ColumnType.int
+                : ColumnType.varchar,
         });
 
         if (this.parseHtmlTableService.hasMeaningfulThead()) {
@@ -39,7 +41,7 @@ export default class HtmlTableDataSource implements IDataSource {
         }
 
         if (this.parseHtmlTableService.hasTbodyRows()) {
-            return this.parseHtmlTableService.getTbodyRows().map(convertCellIntoColumnDefinition);
+            return this.parseHtmlTableService.getFirstTbodyRowCells().map(convertCellIntoColumnDefinition);
         }
 
         return [];
@@ -54,7 +56,11 @@ export default class HtmlTableDataSource implements IDataSource {
         }
 
         return rows.map((row: HTMLTableRowElement) => (
-            domHelpers.htmlCollectionToArray(row.cells).map((cell) => cell.innerText)
+            domHelpers.htmlCollectionToArray(row.cells).map((cell, columnIndex: number) => (
+                this.parseHtmlTableService.isOnlyIntegerColumn(columnIndex)
+                    ? Number(cell.innerText)
+                    : cell.innerText
+            ))
         ));
     }
 }

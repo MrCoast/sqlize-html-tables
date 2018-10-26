@@ -39,14 +39,50 @@ export default class ParseHtmlTableService {
     }
 
     public getTheadCells() {
-        return domHelpers.htmlCollectionToArray(this.tableElement.tHead.rows[0].cells);
+        return domHelpers.htmlCollectionToArray(this.tableElement.tHead.rows[0].cells) as HTMLTableHeaderCellElement[];
+    }
+
+    public getFirstTbodyRowCells() {
+        return this.hasTbodyRows()
+            ? domHelpers.htmlCollectionToArray(this.getTbodyRows()[0].cells) as HTMLTableDataCellElement[]
+            : [];
     }
 
     public getTbodyRows() {
-        return domHelpers.htmlCollectionToArray(this.tableElement.tBodies[0].rows);
+        return domHelpers.htmlCollectionToArray(this.tableElement.tBodies[0].rows) as HTMLTableRowElement[];
     }
 
     public hasTbodyRows() {
-        return !!this.tableElement.rows[0];
+        return !!this.tableElement.tBodies[0].rows[0];
+    }
+
+    public isOnlyIntegerColumn(columnIndex: number) {
+        const columnValues = this.getTableColumnValues(columnIndex);
+
+        for (const value of columnValues) {
+            if (value === null) {
+                continue; // @TODO add isNotNullColumn()
+            }
+
+            if (!/\d+/.test(value)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public getTableColumnValues(columnIndex: number) {
+        const columnValues: Array<string | null> = [];
+
+        for (const row of this.getTbodyRows()) {
+            const cellValue = row.cells[columnIndex]
+                ? row.cells[columnIndex].innerText
+                : null;
+
+            columnValues.push(cellValue);
+        }
+
+        return columnValues;
     }
 }
