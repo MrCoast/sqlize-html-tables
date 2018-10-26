@@ -29,7 +29,7 @@ const fullyDefinedTable = {
             </tbody>
         </table>
     `,
-    expectedSqlTableName: 'first_names',
+    expectedSqlTableName: 'id_first_name_last_name',
     expectedSqlTableColumnDefinitions: [
         {
             columnName: 'id',

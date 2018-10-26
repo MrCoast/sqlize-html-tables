@@ -1,39 +1,24 @@
 import { ColumnType, IColumnDefinition, IDataSource } from './DataSource';
 import * as stringHelpers from 'helpers/StringHelpers';
 import * as domHelpers from 'helpers/DomHelpers';
+import ParseHtmlTableService from 'services/ParseHtmlTableService';
 
 export default class HtmlTableDataSource implements IDataSource {
-    private tableElement: HTMLTableElement;
+    private parseHtmlTableService: ParseHtmlTableService;
 
     constructor(tableElement: HTMLTableElement) {
-        this.tableElement = tableElement;
+        this.parseHtmlTableService = new ParseHtmlTableService(tableElement);
     }
 
     public getTableName() {
-        let tableName = null;
+        let tableName = this.parseHtmlTableService.getTableNameFromCaption();
 
-        if (this.tableElement.caption && this.tableElement.caption.textContent) {
-            tableName = this.tableElement.caption.textContent;
+        if (tableName === null) {
+            tableName = this.parseHtmlTableService.getTableNameFromId();
         }
 
         if (tableName === null) {
-            if (stringHelpers.isMeaningfullString(this.tableElement.id)) {
-                tableName = this.tableElement.id;
-            }
-        }
-
-        if (tableName === null) {
-            if (this.tableElement.tHead && this.tableElement.tHead.rows[0]) {
-                const cells = this.tableElement.tHead.rows[0].cells;
-                const theadSummary = domHelpers
-                    .htmlCollectionToArray(cells)
-                    .map((cell: HTMLTableDataCellElement) => cell.innerText)
-                    .join(' ');
-
-                if (stringHelpers.isMeaningfullString(theadSummary)) {
-                    tableName = theadSummary;
-                }
-            }
+            tableName = this.parseHtmlTableService.getTableNameFromThead();
         }
 
         if (tableName === null) {
@@ -49,20 +34,20 @@ export default class HtmlTableDataSource implements IDataSource {
             columnType: ColumnType.varchar,
         });
 
-        if (this.tableElement.tHead && this.tableElement.tHead.rows[0]) {
-            return domHelpers.htmlCollectionToArray(this.tableElement.tHead.rows[0].cells).map(convertCellIntoColumnDefinition);
+        if (this.parseHtmlTableService.hasMeaningfulThead()) {
+            return this.parseHtmlTableService.getTheadCells().map(convertCellIntoColumnDefinition);
         }
 
-        if (this.tableElement.rows[0]) {
-            return domHelpers.htmlCollectionToArray(this.tableElement.rows[0].cells).map(convertCellIntoColumnDefinition);
+        if (this.parseHtmlTableService.hasTbodyRows()) {
+            return this.parseHtmlTableService.getTbodyRows().map(convertCellIntoColumnDefinition);
         }
 
         return [];
     }
 
     public getData(): any[][] {
-        const shouldSkipFirstRow = !(this.tableElement.tHead && this.tableElement.tHead.rows[0]);
-        let rows = domHelpers.htmlCollectionToArray(this.tableElement.rows);
+        const shouldSkipFirstRow = !this.parseHtmlTableService.hasMeaningfulThead();
+        let rows = this.parseHtmlTableService.getTbodyRows();
 
         if (shouldSkipFirstRow) {
             rows = rows.splice(0, 1);

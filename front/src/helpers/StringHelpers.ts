@@ -6,6 +6,6 @@ export function getRandomHash() {
     return Math.random().toString(16).substring(2, 15);
 }
 
-export function isMeaningfullString(text: string) {
+export function isMeaningfulString(text: string) {
     return /\w+/.test(text);
 }
