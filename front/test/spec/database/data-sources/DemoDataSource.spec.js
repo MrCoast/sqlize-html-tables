@@ -5,13 +5,13 @@ const demoDataSource = new DemoDataSource();
 
 describe('DemoDataSource', function () {
     describe('method getTableName', function () {
-        it('should return correct demo table name', function () {
+        it('should return correct demo SQL table name', function () {
             expect(demoDataSource.getTableName()).toBe('demo');
         });
     });
 
     describe('method getColumnDefinitions', function () {
-        it('should return correct demo table column definitions', function () {
+        it('should return correct demo SQL table column definitions', function () {
             expect(demoDataSource.getColumnDefinitions()).toEqual([
                 {
                     columnName: 'id',
@@ -30,7 +30,7 @@ describe('DemoDataSource', function () {
     });
 
     describe('method getData', function () {
-        it('should return correct demo table data', function () {
+        it('should return correct demo SQL table data', function () {
             expect(demoDataSource.getData()).toEqual([
                 [1, 'Peter', 'Li'],
                 [2, 'Syed', 'Hassan Ali'],
