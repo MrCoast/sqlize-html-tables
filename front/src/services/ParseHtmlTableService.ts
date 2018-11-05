@@ -60,11 +60,27 @@ export default class ParseHtmlTableService {
         const columnValues = this.getTableColumnValues(columnIndex);
 
         for (const value of columnValues) {
-            if (value === null) {
+            if (stringHelpers.isNullLikeString(value)) {
                 continue; // @TODO add isNotNullColumn()
             }
 
-            if (!/\d+/.test(value)) {
+            if (!stringHelpers.isIntegerString(value!)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public isOnlyFloatColumn(columnIndex: number) {
+        const columnValues = this.getTableColumnValues(columnIndex);
+
+        for (const value of columnValues) {
+            if (stringHelpers.isNullLikeString(value)) {
+                continue; // @TODO add isNotNullColumn()
+            }
+
+            if (!stringHelpers.isFloatString(value!)) {
                 return false;
             }
         }

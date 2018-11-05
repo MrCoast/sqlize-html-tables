@@ -1,6 +1,7 @@
 export enum ColumnType {
     int = 'INT',
     varchar = 'VARCHAR',
+    float = 'FLOAT',
 }
 
 export interface IColumnDefinition {

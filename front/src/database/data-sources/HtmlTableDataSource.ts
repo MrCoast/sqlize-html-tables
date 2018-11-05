@@ -31,9 +31,7 @@ export default class HtmlTableDataSource implements IDataSource {
     public getColumnDefinitions(): IColumnDefinition[] {
         const convertCellIntoColumnDefinition = (cell: HTMLTableCellElement, columnIndex: number) => ({
             columnName: stringHelpers.textToSqlIdentifier(cell.innerText),
-            columnType: this.parseHtmlTableService.isOnlyIntegerColumn(columnIndex)
-                ? ColumnType.int
-                : ColumnType.varchar,
+            columnType: this.getColumnType(columnIndex),
         });
 
         if (this.parseHtmlTableService.hasMeaningfulThead()) {
@@ -57,10 +55,32 @@ export default class HtmlTableDataSource implements IDataSource {
 
         return rows.map((row: HTMLTableRowElement) => (
             domHelpers.htmlCollectionToArray(row.cells).map((cell, columnIndex: number) => (
-                this.parseHtmlTableService.isOnlyIntegerColumn(columnIndex)
-                    ? Number(cell.innerText)
-                    : cell.innerText
+                this.processCellValue(cell.innerText, columnIndex)
             ))
         ));
+    }
+
+    private getColumnType(columnIndex: number) {
+        if (this.parseHtmlTableService.isOnlyIntegerColumn(columnIndex)) {
+            return ColumnType.int;
+        }
+
+        if (this.parseHtmlTableService.isOnlyFloatColumn(columnIndex)) {
+            return ColumnType.float;
+        }
+
+        return ColumnType.varchar;
+    }
+
+    private processCellValue(cellValue: string, columnIndex: number) {
+        if (this.parseHtmlTableService.isOnlyIntegerColumn(columnIndex)) {
+            return Number(cellValue);
+        }
+
+        if (this.parseHtmlTableService.isOnlyFloatColumn(columnIndex)) {
+            return Number(stringHelpers.normalizeFloatString(cellValue));
+        }
+
+        return cellValue;
     }
 }
