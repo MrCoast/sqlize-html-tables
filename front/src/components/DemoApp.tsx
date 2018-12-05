@@ -6,7 +6,7 @@ class App extends React.Component {
     public render() {
         return (
             <div className="app-container">
-                <h1>SQLize HTML tables</h1>
+                <h1>SQLize HTML tables Demo</h1>
                 <SqlRunner />
                 <DemoHtmlTable />
             </div>

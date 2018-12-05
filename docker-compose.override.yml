@@ -13,7 +13,7 @@ services:
                 ipv4_address: 192.168.10.5
     webpack:
         command: >
-            bash -c "sed -e 's/%apiUrl%/http:\/\/192.168.10.10/g' /app/config/app/config.ts.template > /app/config/app/config.ts
+            bash -c "cp -f /app/config/app/config.ts.template /app/config/app/config.ts
             && npm install && npm run build-dev-dll && npm run start-app"
         networks:
             sqlize-html-tables:

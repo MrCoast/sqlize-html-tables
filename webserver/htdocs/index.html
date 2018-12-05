@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>SQLize HTML tables</title>
+        <title>SQLize HTML tables Demo</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="<!--#exec cmd="echo -n $ASSETS_HOST" -->/main.css">
     </head>
     <body>
-        <div id="root">
-            <div class="preload-block">
-                <div class="logo"></div>
-                <div class="loader"></div>
-            </div>
-        </div>
+        <div id="root"></div>
     </body>
-    <!--#exec cmd="! [ -z $DEV_ENVIRONMENT ] && echo -n "<script type=\"text/javascript\" src=\"$ASSETS_HOST/vendors.js\"></script>"" -->
     <script type="text/javascript" src="<!--#exec cmd="echo -n $ASSETS_HOST" -->/bundle.js"></script>
 </html>
