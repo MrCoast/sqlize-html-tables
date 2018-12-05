@@ -90,15 +90,21 @@ function loaderAliases() {
     };
 }
 
-function babelLoader() {
+function babelLoader(options = {}) {
+    const include = [
+        SOURCE_PATH,
+        TESTS_PATH,
+    ];
+
+    if (options.useBabelForNodeModules) {
+        include.push(NODE_MODULES_PATH);
+    }
+
     return {
         module: {
             rules: [{
                 test: /\.(js|jsx)$/,
-                include: [
-                    SOURCE_PATH,
-                    TESTS_PATH,
-                ],
+                include,
                 use: {
                     loader: 'babel-loader',
                     options: {
@@ -212,6 +218,7 @@ function basicConfig(options = {}) {
     const optionsWithDefaults = Object.assign({
         disableTypechecking: false,
         useCache: true,
+        useBabelForNodeModules: false,
     }, options);
 
     return merge([
@@ -220,7 +227,7 @@ function basicConfig(options = {}) {
         resolveAliases(),
 
         loaderAliases(),
-        babelLoader(),
+        babelLoader(options),
         typescriptLoader(optionsWithDefaults.disableTypechecking, optionsWithDefaults.useCache),
 
         circularDependencyPlugin(),

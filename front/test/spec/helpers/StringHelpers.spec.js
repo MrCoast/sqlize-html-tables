@@ -121,4 +121,42 @@ describe('StringHelpers', function () {
             expect(stringHelpers.isFloatString('-aaaa,1234')).toBeFalsy();
         });
     });
+
+    describe('method textToSqlIdentifier', function () {
+        it('should return correct SQL identifier for given string', function () {
+            expect(stringHelpers.textToSqlIdentifier('foo')).toBe('foo');
+            expect(stringHelpers.textToSqlIdentifier(' foo ')).toBe('foo');
+            expect(stringHelpers.textToSqlIdentifier('foo ')).toBe('foo');
+            expect(stringHelpers.textToSqlIdentifier(' foo')).toBe('foo');
+            expect(stringHelpers.textToSqlIdentifier('  foo  ')).toBe('foo');
+            expect(stringHelpers.textToSqlIdentifier('foo  ')).toBe('foo');
+            expect(stringHelpers.textToSqlIdentifier('  foo')).toBe('foo');
+
+            expect(stringHelpers.textToSqlIdentifier('FooBar')).toBe('foobar');
+            expect(stringHelpers.textToSqlIdentifier('ABBR')).toBe('abbr');
+
+            expect(stringHelpers.textToSqlIdentifier('foo bar')).toBe('foo_bar');
+            expect(stringHelpers.textToSqlIdentifier('foo  bar')).toBe('foo_bar');
+            expect(stringHelpers.textToSqlIdentifier(' foo bar ')).toBe('foo_bar');
+            expect(stringHelpers.textToSqlIdentifier(' foo bar')).toBe('foo_bar');
+            expect(stringHelpers.textToSqlIdentifier('foo bar ')).toBe('foo_bar');
+
+            expect(stringHelpers.textToSqlIdentifier('123')).toBe('i_123');
+            expect(stringHelpers.textToSqlIdentifier('123a')).toBe('i_123a');
+
+            expect(/^i_.+/.test(stringHelpers.textToSqlIdentifier(''))).toBeTruthy();
+            expect(/^i_.+/.test(stringHelpers.textToSqlIdentifier('   '))).toBeTruthy();
+
+            expect(stringHelpers.textToSqlIdentifier('a(b)c')).toBe('a_b_c');
+            expect(stringHelpers.textToSqlIdentifier('(ab)c')).toBe('ab_c');
+            expect(stringHelpers.textToSqlIdentifier('a(bc)')).toBe('a_bc');
+            expect(stringHelpers.textToSqlIdentifier('(abc)')).toBe('abc');
+            expect(stringHelpers.textToSqlIdentifier('`~!@#$%^&*()_-+={[}]\\|/\';:?><,.a')).toBe('a');
+            expect(/^i_.+/.test(stringHelpers.textToSqlIdentifier('`~!@#$%^&*()_-+={[}]\\|/\';:?><,.'))).toBeTruthy();
+
+            expect(stringHelpers.textToSqlIdentifier('abv')).toBe('abv');
+            expect(stringHelpers.textToSqlIdentifier('абв')).toBe('abv');
+            expect(stringHelpers.textToSqlIdentifier('Виктор is Lucky!')).toBe('viktor_is_lucky');
+        });
+    });
 });

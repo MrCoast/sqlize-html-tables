@@ -1,5 +1,23 @@
+import { transliterate } from 'transliteration';
+
 export function textToSqlIdentifier(text: string) {
-    return text.toLowerCase().replace(/[^\d\w]/g, '_').replace(/^_|_$/g, '');
+    let potentialResult = transliterate(text);
+
+    potentialResult = potentialResult
+        .toLowerCase()
+        .replace(/[^\d\w]/g, '_')
+        .replace(/_+/g, '_')
+        .replace(/^_|_$/g, '');
+
+    if (/^\d/.test(potentialResult)) {
+        potentialResult = 'i_' + potentialResult;
+    }
+
+    if (potentialResult === '') {
+        potentialResult = 'i_' + getRandomHash();
+    }
+
+    return potentialResult;
 }
 
 export function getRandomHash() {

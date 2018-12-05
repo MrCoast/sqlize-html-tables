@@ -29,7 +29,11 @@ function injectifyLoader() {
 
 module.exports = merge([
     sourceMaps('cheap-inline-module-source-map'),
-    basicConfigWithDllReference({ disableTypechecking: true, useCache: false }),
+    basicConfigWithDllReference({
+        disableTypechecking: true,
+        useCache: false,
+        useBabelForNodeModules: true,
+    }),
     additionalAliases(),
     injectifyLoader(),
 ]);
