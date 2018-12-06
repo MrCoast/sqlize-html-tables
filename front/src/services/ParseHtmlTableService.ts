@@ -39,7 +39,7 @@ export default class ParseHtmlTableService {
     }
 
     public getTheadCells() {
-        return domHelpers.htmlCollectionToArray(this.tableElement.tHead.rows[0].cells) as HTMLTableHeaderCellElement[];
+        return domHelpers.htmlCollectionToArray(this.tableElement.tHead!.rows[0].cells) as HTMLTableHeaderCellElement[];
     }
 
     public getFirstTbodyRowCells() {
@@ -56,7 +56,7 @@ export default class ParseHtmlTableService {
         return !!this.tableElement.tBodies[0].rows[0];
     }
 
-    public isOnlyIntegerColumn(columnIndex: number) {
+    public isColumnOkByPredicate(columnIndex: number, predicate: (value: string) => boolean) {
         const columnValues = this.getTableColumnValues(columnIndex);
 
         for (const value of columnValues) {
@@ -64,7 +64,7 @@ export default class ParseHtmlTableService {
                 continue; // @TODO add isNotNullColumn()
             }
 
-            if (!stringHelpers.isIntegerString(value!)) {
+            if (!predicate.call(null, value!)) {
                 return false;
             }
         }
@@ -72,20 +72,12 @@ export default class ParseHtmlTableService {
         return true;
     }
 
+    public isOnlyIntegerColumn(columnIndex: number) {
+        return this.isColumnOkByPredicate(columnIndex, stringHelpers.isIntegerString);
+    }
+
     public isOnlyFloatColumn(columnIndex: number) {
-        const columnValues = this.getTableColumnValues(columnIndex);
-
-        for (const value of columnValues) {
-            if (stringHelpers.isNullLikeString(value)) {
-                continue; // @TODO add isNotNullColumn()
-            }
-
-            if (!stringHelpers.isFloatString(value!)) {
-                return false;
-            }
-        }
-
-        return true;
+        return this.isColumnOkByPredicate(columnIndex, stringHelpers.isFloatString);
     }
 
     public getTableColumnValues(columnIndex: number) {

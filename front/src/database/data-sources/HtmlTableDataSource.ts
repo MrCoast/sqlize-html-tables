@@ -5,6 +5,7 @@ import ParseHtmlTableService from 'services/ParseHtmlTableService';
 
 export default class HtmlTableDataSource implements IDataSource {
     private parseHtmlTableService: ParseHtmlTableService;
+    private columnTypesCache: Map<number, ColumnType> = new Map();
 
     constructor(tableElement: HTMLTableElement) {
         this.parseHtmlTableService = new ParseHtmlTableService(tableElement);
@@ -60,12 +61,41 @@ export default class HtmlTableDataSource implements IDataSource {
         ));
     }
 
+    private isColumnOfType(columnIndex: number, columnType: ColumnType) {
+        if (this.columnTypesCache.has(columnIndex)) {
+            return this.columnTypesCache.get(columnIndex) === columnType;
+        }
+
+        switch (columnType) {
+            case ColumnType.int: {
+                const isOfThisType = this.parseHtmlTableService.isOnlyIntegerColumn(columnIndex);
+
+                if (isOfThisType) {
+                    this.columnTypesCache.set(columnIndex, ColumnType.int);
+                }
+
+                return isOfThisType;
+            }
+            case ColumnType.float: {
+                const isOfThisType = this.parseHtmlTableService.isOnlyFloatColumn(columnIndex);
+
+                if (isOfThisType) {
+                    this.columnTypesCache.set(columnIndex, ColumnType.float);
+                }
+
+                return isOfThisType;
+            }
+            default:
+                throw new Error(`Checking for columnType ${columnType} is not implemented.`);
+        }
+    }
+
     private getColumnType(columnIndex: number) {
-        if (this.parseHtmlTableService.isOnlyIntegerColumn(columnIndex)) {
+        if (this.isColumnOfType(columnIndex, ColumnType.int)) {
             return ColumnType.int;
         }
 
-        if (this.parseHtmlTableService.isOnlyFloatColumn(columnIndex)) {
+        if (this.isColumnOfType(columnIndex, ColumnType.float)) {
             return ColumnType.float;
         }
 
@@ -73,11 +103,11 @@ export default class HtmlTableDataSource implements IDataSource {
     }
 
     private processCellValue(cellValue: string, columnIndex: number) {
-        if (this.parseHtmlTableService.isOnlyIntegerColumn(columnIndex)) {
+        if (this.isColumnOfType(columnIndex, ColumnType.int)) {
             return Number(cellValue);
         }
 
-        if (this.parseHtmlTableService.isOnlyFloatColumn(columnIndex)) {
+        if (this.isColumnOfType(columnIndex, ColumnType.float)) {
             return Number(stringHelpers.normalizeFloatString(cellValue));
         }
 
