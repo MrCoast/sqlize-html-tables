@@ -75,6 +75,161 @@ const fullyDefinedTable = {
     ],
 };
 
+const fullyDefinedTableWithId = {
+    tableHtml: `
+        <table id="people-table">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>First Name</td>
+                    <td>Last Name</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Victor</td>
+                    <td>K</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Sergey</td>
+                    <td>S</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Dmitry</td>
+                    <td>V</td>
+                </tr>
+            </tbody>
+        </table>
+    `,
+    expectedSqlTableName: 'people_table',
+    expectedSqlTableColumnDefinitions: [
+        {
+            columnName: 'id',
+            columnType: ColumnType.int,
+        },
+        {
+            columnName: 'first_name',
+            columnType: ColumnType.varchar,
+        },
+        {
+            columnName: 'last_name',
+            columnType: ColumnType.varchar,
+        },
+    ],
+    expectedSqlTableData: [
+        [1, 'Victor', 'K'],
+        [2, 'Sergey', 'S'],
+        [3, 'Dmitry', 'V'],
+    ],
+};
+
+const fullyDefinedTableWithCaption = {
+    tableHtml: `
+        <table>
+            <caption>People in our Company</caption>
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>First Name</td>
+                    <td>Last Name</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Victor</td>
+                    <td>K</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Sergey</td>
+                    <td>S</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Dmitry</td>
+                    <td>V</td>
+                </tr>
+            </tbody>
+        </table>
+    `,
+    expectedSqlTableName: 'people_in_our_company',
+    expectedSqlTableColumnDefinitions: [
+        {
+            columnName: 'id',
+            columnType: ColumnType.int,
+        },
+        {
+            columnName: 'first_name',
+            columnType: ColumnType.varchar,
+        },
+        {
+            columnName: 'last_name',
+            columnType: ColumnType.varchar,
+        },
+    ],
+    expectedSqlTableData: [
+        [1, 'Victor', 'K'],
+        [2, 'Sergey', 'S'],
+        [3, 'Dmitry', 'V'],
+    ],
+};
+
+const fullyWithoutThead = {
+    tableHtml: `
+        <table id="people-table">
+            <tbody>
+                <tr>
+                    <td>ID</td>
+                    <td>First Name</td>
+                    <td>Last Name</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Victor</td>
+                    <td>K</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Sergey</td>
+                    <td>S</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Dmitry</td>
+                    <td>V</td>
+                </tr>
+            </tbody>
+        </table>
+    `,
+    expectedSqlTableName: 'people_table',
+    expectedSqlTableColumnDefinitions: [
+        {
+            columnName: 'id',
+            columnType: ColumnType.int,
+        },
+        {
+            columnName: 'first_name',
+            columnType: ColumnType.varchar,
+        },
+        {
+            columnName: 'last_name',
+            columnType: ColumnType.varchar,
+        },
+    ],
+    expectedSqlTableData: [
+        [1, 'Victor', 'K'],
+        [2, 'Sergey', 'S'],
+        [3, 'Dmitry', 'V'],
+    ],
+};
+
 export default {
     fullyDefinedTable,
+    fullyDefinedTableWithId,
+    fullyDefinedTableWithCaption,
+    fullyWithoutThead,
 }
