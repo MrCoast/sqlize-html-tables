@@ -40,18 +40,24 @@ export default class HtmlTableDataSource implements IDataSource {
         }
 
         if (this.parseHtmlTableService.hasTbodyRows()) {
-            return this.parseHtmlTableService.getFirstTbodyRowCells().map(convertCellIntoColumnDefinition);
+            if (this.parseHtmlTableService.hasMeaningfulColumnNames()) {
+                return this.parseHtmlTableService.getFirstTbodyRowCells().map(convertCellIntoColumnDefinition);
+            }
+
+            return this.generateDummyColumnNames().map((columnName: string, columnIndex: number) => ({
+                columnName,
+                columnType: this.getColumnType(columnIndex),
+            }));
         }
 
         return [];
     }
 
     public getData(): any[][] {
-        const shouldSkipFirstRow = !this.parseHtmlTableService.hasMeaningfulThead();
-        let rows = this.parseHtmlTableService.getTbodyRows();
+        const rows = this.parseHtmlTableService.getTbodyRows();
 
-        if (shouldSkipFirstRow) {
-            rows = rows.splice(0, 1);
+        if (this.parseHtmlTableService.shouldSkipFirstRowInData()) {
+            rows.splice(0, 1);
         }
 
         return rows.map((row: HTMLTableRowElement) => (
@@ -112,5 +118,16 @@ export default class HtmlTableDataSource implements IDataSource {
         }
 
         return cellValue;
+    }
+
+    /**
+     * Generates names like ['c_1', 'c_2', 'c_3' etc.], total of columns count
+     * of the table.
+     */
+    private generateDummyColumnNames() {
+        return Array
+            .apply(null, { length: this.parseHtmlTableService.getTableColumnsCount() })
+            .map(Number.call, Number)
+            .map((item: number) => `c_${item}`);
     }
 }

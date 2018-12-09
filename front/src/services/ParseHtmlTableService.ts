@@ -3,6 +3,7 @@ import * as domHelpers from 'helpers/DomHelpers';
 
 export default class ParseHtmlTableService {
     private tableElement: HTMLTableElement;
+    private cachedShouldSkipFirstRowInData: boolean | null = null;
 
     constructor(tableElement: HTMLTableElement) {
         this.tableElement = tableElement;
@@ -10,6 +11,42 @@ export default class ParseHtmlTableService {
 
     public hasMeaningfulThead() {
         return this.tableElement.tHead && this.tableElement.tHead.rows[0];
+    }
+
+    public hasMeaningfulColumnNames() {
+        if (this.hasMeaningfulThead()) {
+            return true;
+        }
+
+        const rows = this.getTbodyRows();
+
+        if (!rows[0] || !rows[0].cells || rows[0].cells.length < 1) {
+            return false;
+        }
+
+        for (const cell of domHelpers.htmlCollectionToArray(rows[0].cells)) {
+            if (stringHelpers.isIntegerString(cell.innerText)
+                || stringHelpers.isFloatString(cell.innerText)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public shouldSkipFirstRowInData() {
+        if (this.cachedShouldSkipFirstRowInData !== null) {
+            return this.cachedShouldSkipFirstRowInData;
+        }
+
+        this.cachedShouldSkipFirstRowInData = !this.hasMeaningfulThead()
+            && this.hasMeaningfulColumnNames();
+
+        return this.cachedShouldSkipFirstRowInData;
+    }
+
+    public getTableColumnsCount() {
+        return Math.max(...this.getTbodyRows().map((row) => row.cells.length));
     }
 
     public getTableNameFromCaption() {
@@ -39,17 +76,23 @@ export default class ParseHtmlTableService {
     }
 
     public getTheadCells() {
-        return domHelpers.htmlCollectionToArray(this.tableElement.tHead!.rows[0].cells) as HTMLTableHeaderCellElement[];
+        return domHelpers.htmlCollectionToArray(
+            this.tableElement.tHead!.rows[0].cells,
+        ) as HTMLTableHeaderCellElement[];
     }
 
     public getFirstTbodyRowCells() {
         return this.hasTbodyRows()
-            ? domHelpers.htmlCollectionToArray(this.getTbodyRows()[0].cells) as HTMLTableDataCellElement[]
+            ? domHelpers.htmlCollectionToArray(
+                this.getTbodyRows()[0].cells,
+              ) as HTMLTableDataCellElement[]
             : [];
     }
 
     public getTbodyRows() {
-        return domHelpers.htmlCollectionToArray(this.tableElement.tBodies[0].rows) as HTMLTableRowElement[];
+        return domHelpers.htmlCollectionToArray(
+            this.tableElement.tBodies[0].rows,
+        ) as HTMLTableRowElement[];
     }
 
     public hasTbodyRows() {
@@ -82,13 +125,22 @@ export default class ParseHtmlTableService {
 
     public getTableColumnValues(columnIndex: number) {
         const columnValues: Array<string | null> = [];
+        let isFirstRow = true;
 
         for (const row of this.getTbodyRows()) {
+            if (isFirstRow && this.shouldSkipFirstRowInData()) {
+                isFirstRow = false;
+
+                continue;
+            }
+
             const cellValue = row.cells[columnIndex]
                 ? row.cells[columnIndex].innerText
                 : null;
 
             columnValues.push(cellValue);
+
+            isFirstRow = false;
         }
 
         return columnValues;

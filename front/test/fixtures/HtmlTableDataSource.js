@@ -178,7 +178,7 @@ const fullyDefinedTableWithCaption = {
     ],
 };
 
-const fullyWithoutThead = {
+const tableWithoutThead = {
     tableHtml: `
         <table id="people-table">
             <tbody>
@@ -231,5 +231,5 @@ export default {
     fullyDefinedTable,
     fullyDefinedTableWithId,
     fullyDefinedTableWithCaption,
-    fullyWithoutThead,
+    tableWithoutThead,
 }
