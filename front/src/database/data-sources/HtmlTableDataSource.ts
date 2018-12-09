@@ -128,6 +128,6 @@ export default class HtmlTableDataSource implements IDataSource {
         return Array
             .apply(null, { length: this.parseHtmlTableService.getTableColumnsCount() })
             .map(Number.call, Number)
-            .map((item: number) => `c_${item}`);
+            .map((item: number) => `c_${item + 1}`);
     }
 }
