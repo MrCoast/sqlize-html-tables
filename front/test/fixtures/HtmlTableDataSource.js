@@ -1,46 +1,8 @@
+import htmlTables from './HtmlTables';
 import { ColumnType } from 'database/data-sources/DataSource';
 
 const fullyDefinedTable = {
-    tableHtml: `
-        <table>
-            <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>First Name</td>
-                    <td>Last Name</td>
-                    <td>Favorite int number</td>
-                    <td>String with numbers</td>
-                    <td>Favorite float number</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Victor</td>
-                    <td>K</td>
-                    <td>27</td>
-                    <td>foo123</td>
-                    <td>27,0</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Sergey</td>
-                    <td>S</td>
-                    <td>-12</td>
-                    <td>234bar</td>
-                    <td>-12.6</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Dmitry</td>
-                    <td>V</td>
-                    <td>18</td>
-                    <td>baz356baz</td>
-                    <td>+18.</td>
-                </tr>
-            </tbody>
-        </table>
-    `,
+    tableHtml: htmlTables.fullyDefinedTable,
     expectedSqlTableName: 'id_first_name_last_name_favorite_int_number_string_with_numbers_favorite_float_number',
     expectedSqlTableColumnDefinitions: [
         {
@@ -76,34 +38,7 @@ const fullyDefinedTable = {
 };
 
 const fullyDefinedTableWithId = {
-    tableHtml: `
-        <table id="people-table">
-            <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>First Name</td>
-                    <td>Last Name</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Victor</td>
-                    <td>K</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Sergey</td>
-                    <td>S</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Dmitry</td>
-                    <td>V</td>
-                </tr>
-            </tbody>
-        </table>
-    `,
+    tableHtml: htmlTables.fullyDefinedTableWithId,
     expectedSqlTableName: 'people_table',
     expectedSqlTableColumnDefinitions: [
         {
@@ -127,35 +62,7 @@ const fullyDefinedTableWithId = {
 };
 
 const fullyDefinedTableWithCaption = {
-    tableHtml: `
-        <table>
-            <caption>People in our Company</caption>
-            <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>First Name</td>
-                    <td>Last Name</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Victor</td>
-                    <td>K</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Sergey</td>
-                    <td>S</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Dmitry</td>
-                    <td>V</td>
-                </tr>
-            </tbody>
-        </table>
-    `,
+    tableHtml: htmlTables.fullyDefinedTableWithCaption,
     expectedSqlTableName: 'people_in_our_company',
     expectedSqlTableColumnDefinitions: [
         {
@@ -179,32 +86,7 @@ const fullyDefinedTableWithCaption = {
 };
 
 const tableWithoutThead = {
-    tableHtml: `
-        <table id="people-table">
-            <tbody>
-                <tr>
-                    <td>ID</td>
-                    <td>First Name</td>
-                    <td>Last Name</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Victor</td>
-                    <td>K</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Sergey</td>
-                    <td>S</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Dmitry</td>
-                    <td>V</td>
-                </tr>
-            </tbody>
-        </table>
-    `,
+    tableHtml: htmlTables.tableWithoutThead,
     expectedSqlTableName: 'people_table',
     expectedSqlTableColumnDefinitions: [
         {
@@ -228,30 +110,7 @@ const tableWithoutThead = {
 };
 
 const tableWithoutTbody = {
-    tableHtml: `
-        <table id="people-table">
-            <tr>
-                <td>ID</td>
-                <td>First Name</td>
-                <td>Last Name</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Victor</td>
-                <td>K</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Sergey</td>
-                <td>S</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Dmitry</td>
-                <td>V</td>
-            </tr>
-        </table>
-    `,
+    tableHtml: htmlTables.tableWithoutTbody,
     expectedSqlTableName: 'people_table',
     expectedSqlTableColumnDefinitions: [
         {
@@ -275,25 +134,7 @@ const tableWithoutTbody = {
 };
 
 const tableWithoutMeaningfulColumnNames = {
-    tableHtml: `
-        <table id="people-table">
-            <tr>
-                <td>1</td>
-                <td>Victor</td>
-                <td>K</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Sergey</td>
-                <td>S</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Dmitry</td>
-                <td>V</td>
-            </tr>
-        </table>
-    `,
+    tableHtml: htmlTables.tableWithoutMeaningfulColumnNames,
     expectedSqlTableName: 'people_table',
     expectedSqlTableColumnDefinitions: [
         {
