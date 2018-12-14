@@ -6,12 +6,17 @@ import ParseHtmlTableService from 'services/ParseHtmlTableService';
 export default class HtmlTableDataSource implements IDataSource {
     private parseHtmlTableService: ParseHtmlTableService;
     private columnTypesCache: Map<number, ColumnType> = new Map();
+    private isValidRelationalTableCache: boolean | null = null;
 
     constructor(tableElement: HTMLTableElement) {
         this.parseHtmlTableService = new ParseHtmlTableService(tableElement);
     }
 
     public getTableName() {
+        if (!this.isValidRelationalTable()) {
+            return '';
+        }
+
         let tableName = this.parseHtmlTableService.getTableNameFromCaption();
 
         if (tableName === null) {
@@ -30,6 +35,10 @@ export default class HtmlTableDataSource implements IDataSource {
     }
 
     public getColumnDefinitions(): IColumnDefinition[] {
+        if (!this.isValidRelationalTable()) {
+            return [];
+        }
+
         const convertCellIntoColumnDefinition = (cell: HTMLTableCellElement, columnIndex: number) => ({
             columnName: stringHelpers.textToSqlIdentifier(cell.innerText),
             columnType: this.getColumnType(columnIndex),
@@ -54,6 +63,10 @@ export default class HtmlTableDataSource implements IDataSource {
     }
 
     public getData(): any[][] {
+        if (!this.isValidRelationalTable()) {
+            return [];
+        }
+
         const rows = this.parseHtmlTableService.getTbodyRows();
 
         if (this.parseHtmlTableService.shouldSkipFirstRowInData()) {
@@ -61,7 +74,7 @@ export default class HtmlTableDataSource implements IDataSource {
         }
 
         return rows.map((row: HTMLTableRowElement) => (
-            domHelpers.htmlCollectionToArray(row.cells).map((cell, columnIndex: number) => (
+            domHelpers.htmlCollectionToArray(row.cells).map((cell: HTMLTableCellElement, columnIndex: number) => (
                 this.processCellValue(cell.innerText, columnIndex)
             ))
         ));
@@ -129,5 +142,40 @@ export default class HtmlTableDataSource implements IDataSource {
             .apply(null, { length: this.parseHtmlTableService.getTableColumnsCount() })
             .map(Number.call, Number)
             .map((item: number) => `c_${item + 1}`);
+    }
+
+    private isValidRelationalTable() {
+        if (this.isValidRelationalTableCache !== null) {
+            return this.isValidRelationalTableCache;
+        }
+
+        // @TODO add support for multiple tbodies as separate tables
+        if (this.parseHtmlTableService.hasMultipleTbodies()) {
+            this.isValidRelationalTableCache = false;
+
+            return false;
+        }
+
+        if (this.parseHtmlTableService.hasColspansOrRowspans()) {
+            this.isValidRelationalTableCache = false;
+
+            return false;
+        }
+
+        if (!this.parseHtmlTableService.hasEqualColumnsCountInEachRow()) {
+            this.isValidRelationalTableCache = false;
+
+            return false;
+        }
+
+        if (this.parseHtmlTableService.getTbodyRowsCount() < 2) {
+            this.isValidRelationalTableCache = false;
+
+            return false;
+        }
+
+        this.isValidRelationalTableCache = true;
+
+        return true;
     }
 }

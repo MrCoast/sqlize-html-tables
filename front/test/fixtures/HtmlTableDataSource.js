@@ -109,6 +109,30 @@ const tableWithoutThead = {
     ],
 };
 
+const tableWithoutTheadWithThs = {
+    tableHtml: htmlTables.tableWithoutTheadWithThs,
+    expectedSqlTableName: 'people_table',
+    expectedSqlTableColumnDefinitions: [
+        {
+            columnName: 'id',
+            columnType: ColumnType.int,
+        },
+        {
+            columnName: 'first_name',
+            columnType: ColumnType.varchar,
+        },
+        {
+            columnName: 'last_name',
+            columnType: ColumnType.varchar,
+        },
+    ],
+    expectedSqlTableData: [
+        [1, 'Victor', 'K'],
+        [2, 'Sergey', 'S'],
+        [3, 'Dmitry', 'V'],
+    ],
+};
+
 const tableWithoutTbody = {
     tableHtml: htmlTables.tableWithoutTbody,
     expectedSqlTableName: 'people_table',
@@ -157,11 +181,141 @@ const tableWithoutMeaningfulColumnNames = {
     ],
 };
 
+const tableWithTheadWithOnlyColumnNamesRow = {
+    tableHtml: htmlTables.tableWithoutTheadWithOnlyColumnNamesRow,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
+const tableWithoutTheadWithOnlyColumnNamesRow = {
+    tableHtml: htmlTables.tableWithoutTheadWithOnlyColumnNamesRow,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
+const tableWithoutTbodyWithOnlyColumnNamesRow = {
+    tableHtml: htmlTables.tableWithoutTbodyWithOnlyColumnNamesRow,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
+const tableWithMultipleTbodies = {
+    tableHtml: htmlTables.tableWithMultipleTbodies,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
+const tableWithColspansAndRowSpansEqualToOne = {
+    tableHtml: htmlTables.tableWithColspansAndRowSpansEqualToOne,
+    expectedSqlTableName: 'people_table',
+    expectedSqlTableColumnDefinitions: [
+        {
+            columnName: 'id',
+            columnType: ColumnType.int,
+        },
+        {
+            columnName: 'first_name',
+            columnType: ColumnType.varchar,
+        },
+        {
+            columnName: 'last_name',
+            columnType: ColumnType.varchar,
+        },
+    ],
+    expectedSqlTableData: [
+        [1, 'Victor', 'K'],
+        [2, 'Sergey', 'S'],
+        [3, 'Dmitry', 'V'],
+    ],
+};
+
+const tableWithColspanInThead = {
+    tableHtml: htmlTables.tableWithColspanInThead,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
+const tableWithColspanInTbody = {
+    tableHtml: htmlTables.tableWithColspanInTbody,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
+const tableWithRowspanInThead = {
+    tableHtml: htmlTables.tableWithRowspanInThead,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
+const tableWithRowspanInTbody = {
+    tableHtml: htmlTables.tableWithRowspanInTbody,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
+const tableWithTheadAndNonEqualColumnsCount1 = {
+    tableHtml: htmlTables.tableWithTheadAndNonEqualColumnsCount1,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
+const tableWithTheadAndNonEqualColumnsCount2 = {
+    tableHtml: htmlTables.tableWithTheadAndNonEqualColumnsCount2,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
+const tableWithoutTheadAndNonEqualColumnsCount = {
+    tableHtml: htmlTables.tableWithoutTheadAndNonEqualColumnsCount,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
+const tableWithTbodyWithoutAnyRows = {
+    tableHtml: htmlTables.tableWithTbodyWithoutAnyRows,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
+const tableWithoutTbodyWithoutAnyRows = {
+    tableHtml: htmlTables.tableWithTbodyWithoutAnyRows,
+    expectedSqlTableName: '',
+    expectedSqlTableColumnDefinitions: [],
+    expectedSqlTableData: [],
+};
+
 export default {
     fullyDefinedTable,
     fullyDefinedTableWithId,
     fullyDefinedTableWithCaption,
     tableWithoutThead,
+    tableWithoutTheadWithThs,
     tableWithoutTbody,
     tableWithoutMeaningfulColumnNames,
+    tableWithTheadWithOnlyColumnNamesRow,
+    tableWithoutTheadWithOnlyColumnNamesRow,
+    tableWithoutTbodyWithOnlyColumnNamesRow,
+    tableWithMultipleTbodies,
+    tableWithColspansAndRowSpansEqualToOne,
+    tableWithColspanInThead,
+    tableWithColspanInTbody,
+    tableWithRowspanInThead,
+    tableWithRowspanInTbody,
+    tableWithTheadAndNonEqualColumnsCount1,
+    tableWithTheadAndNonEqualColumnsCount2,
+    tableWithoutTheadAndNonEqualColumnsCount,
+    tableWithTbodyWithoutAnyRows,
+    tableWithoutTbodyWithoutAnyRows,
 }
