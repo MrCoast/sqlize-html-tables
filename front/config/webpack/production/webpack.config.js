@@ -9,7 +9,7 @@ const { DIST_PATH, BOOTSTRAP_FILES_PATH, SASS_PATH } = require('../../sharedPath
 function allEntries() {
     return {
         entry: [
-            path.resolve(BOOTSTRAP_FILES_PATH, 'app.js'),
+            path.resolve(BOOTSTRAP_FILES_PATH, 'DemoApp.js'),
         ],
     };
 }

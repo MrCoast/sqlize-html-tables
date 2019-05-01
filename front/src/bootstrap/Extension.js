@@ -4,6 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import DemoApp from 'components/DemoApp';
 
-import 'scss/style.scss';
+import 'scss/extension.scss';
 
 ReactDOM.render(<DemoApp></DemoApp>, document.getElementById('root'));

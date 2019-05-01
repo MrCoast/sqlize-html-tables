@@ -3,6 +3,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const merge = require('webpack-merge');
@@ -12,17 +13,23 @@ const {
     CONFIG_PATH,
     NODE_MODULES_PATH,
     DIST_PATH,
+    EXTENSION_DIST_PATH,
     BOOTSTRAP_FILES_PATH,
     SASS_PATH,
     TYPINGS_PATH,
     TESTS_PATH,
 } = require('../sharedPaths.js');
 
-function devEntrypoint() {
+function devEntrypoint(bundleUrlPrefix) {
     return {
-        entry: [
-            path.resolve(BOOTSTRAP_FILES_PATH, 'app.js'),
-        ],
+        entry: {
+            demo: path.resolve(BOOTSTRAP_FILES_PATH, 'DemoApp.js'),
+            extension: path.resolve(BOOTSTRAP_FILES_PATH, 'Extension.js'),
+        },
+        output: {
+            filename: '[name].bundle.js',
+            publicPath: bundleUrlPrefix,
+        },
     };
 }
 
@@ -163,6 +170,18 @@ function circularDependencyPlugin() {
     };
 }
 
+function htmlPlugin() {
+    return {
+        plugins: [
+            new HtmlWebpackPlugin({
+                template: `${SOURCE_PATH}/extension/popup.html`,
+                filename: `${EXTENSION_DIST_PATH}/popup.html`,
+                chunks: ['extension'],
+            }),
+        ],
+    };
+}
+
 function strictExportPresence() {
     return {
         module: {
@@ -231,6 +250,7 @@ function basicConfig(options = {}) {
         typescriptLoader(optionsWithDefaults.disableTypechecking, optionsWithDefaults.useCache),
 
         circularDependencyPlugin(),
+        htmlPlugin(),
         strictExportPresence(),
 
         nodeFeatures(),
@@ -251,10 +271,10 @@ function basicConfigWithDllReferenceAndSassCompilation() {
     ]);
 }
 
-function devConfig() {
+function devConfig(bundleUrlPrefix) {
     return merge([
         basicConfigWithDllReferenceAndSassCompilation(),
-        devEntrypoint(),
+        devEntrypoint(bundleUrlPrefix),
     ]);
 }
 

@@ -1,0 +1,25 @@
+@import "var";
+@import "mixin";
+
+.test-table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 500px;
+}
+
+.test-table td, .test-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.test-table tr:nth-child(even){background-color: #f2f2f2;}
+
+.test-table tr:hover {background-color: #ddd;}
+
+.test-table th, .test-table thead td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
