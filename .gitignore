@@ -1,6 +1,5 @@
 nbproject
 front/node_modules
 front/dist
-front/extension-dist/popup.html
 front/extension-dist/extension.bundle.js
 front/extension-dist/extension.css

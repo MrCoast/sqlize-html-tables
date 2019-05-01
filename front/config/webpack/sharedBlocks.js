@@ -3,7 +3,6 @@
 const webpack = require('webpack');
 const path = require('path');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const merge = require('webpack-merge');
@@ -13,7 +12,6 @@ const {
     CONFIG_PATH,
     NODE_MODULES_PATH,
     DIST_PATH,
-    EXTENSION_DIST_PATH,
     BOOTSTRAP_FILES_PATH,
     SASS_PATH,
     TYPINGS_PATH,
@@ -170,18 +168,6 @@ function circularDependencyPlugin() {
     };
 }
 
-function htmlPlugin() {
-    return {
-        plugins: [
-            new HtmlWebpackPlugin({
-                template: `${SOURCE_PATH}/extension/popup.html`,
-                filename: `${EXTENSION_DIST_PATH}/popup.html`,
-                chunks: ['extension'],
-            }),
-        ],
-    };
-}
-
 function strictExportPresence() {
     return {
         module: {
@@ -250,7 +236,6 @@ function basicConfig(options = {}) {
         typescriptLoader(optionsWithDefaults.disableTypechecking, optionsWithDefaults.useCache),
 
         circularDependencyPlugin(),
-        htmlPlugin(),
         strictExportPresence(),
 
         nodeFeatures(),
