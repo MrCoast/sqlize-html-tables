@@ -2,7 +2,7 @@
 
 const path = require('path');
 const merge = require('webpack-merge');
-const { basicConfigWithDllReference, sourceMaps } = require('../sharedBlocks.js');
+const { basicConfig, sourceMaps } = require('../sharedBlocks.js');
 const { TESTS_PATH } = require('../../sharedPaths.js');
 
 function additionalAliases() {
@@ -29,7 +29,7 @@ function injectifyLoader() {
 
 module.exports = merge([
     sourceMaps('cheap-inline-module-source-map'),
-    basicConfigWithDllReference({
+    basicConfig({
         disableTypechecking: true,
         useCache: false,
         useBabelForNodeModules: true,

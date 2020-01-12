@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "SQLize HTML tables",
   "scripts": {
-    "start-app": "webpack-dev-server --config config/webpack/development/webpack.config.js",
-    "build-dev-dll": "webpack --config config/webpack/development/webpack.vendors.config.js",
+    "start": "webpack-dev-server --config config/webpack/development/webpack.config.js",
     "build-prod": "NODE_ENV=production node --max_old_space_size=2048 ./node_modules/webpack/bin/webpack.js --config config/webpack/production/webpack.config.js -p"
   },
   "keywords": [],
@@ -13,7 +12,7 @@
     "react": "~16.3",
     "react-dom": "~16.3",
     "react-responsive-modal": "^3.4.0",
-    "sql.js": "github:kripken/sql.js",
+    "sql.js": "github:kripken/sql.js#9e69650ae099f9d5130ca5f7bea4fd19a9b41d5a",
     "transliteration": "^1.6.6"
   },
   "devDependencies": {
@@ -38,6 +37,8 @@
     "grunt-eslint": "~20.1",
     "grunt-karma": "^2.0.0",
     "grunt-tslint": "~5.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
     "jasmine": "2.5.2",
     "jasmine-core": "2.5.2",
     "jasmine-jquery": "^2.1.1",

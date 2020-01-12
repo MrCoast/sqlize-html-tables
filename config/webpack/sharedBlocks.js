@@ -3,6 +3,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const merge = require('webpack-merge');
@@ -157,6 +158,22 @@ function typescriptLoader(transpileOnly = false, useCache = true) {
     };
 }
 
+function htmlLoader() {
+    return {
+        module: {
+            rules: [{
+                test: /\.(html)$/,
+                use: {
+                    loader: 'html-loader',
+                    options: {
+                        attrs: [':data-src'],
+                    },
+                },
+            }],
+        },
+    };
+}
+
 function circularDependencyPlugin() {
     return {
         plugins: [
@@ -168,23 +185,27 @@ function circularDependencyPlugin() {
     };
 }
 
+function htmlWebpackPlugin() {
+    return merge(
+        htmlLoader(),
+        {
+            plugins: [
+                new HtmlWebpackPlugin({
+                    template: 'htdocs/index.html',
+                    chunks: [
+                        'demo',
+                    ],
+                }),
+            ],
+        },
+    );
+}
+
 function strictExportPresence() {
     return {
         module: {
             strictExportPresence: true,
         },
-    };
-}
-
-function dllReference() {
-    return {
-        plugins: [
-            new webpack.DllReferencePlugin({
-                context: SOURCE_PATH,
-                manifest: require(path.resolve(DIST_PATH, 'vendors-manifest.json')),
-                name: 'vendors',
-            }),
-        ],
     };
 }
 
@@ -242,31 +263,24 @@ function basicConfig(options = {}) {
     ]);
 }
 
-function basicConfigWithDllReference(options = {}) {
+function basicConfigWithSassCompilation() {
     return merge([
-        basicConfig(options),
-        dllReference(),
-    ]);
-}
-
-function basicConfigWithDllReferenceAndSassCompilation() {
-    return merge([
-        basicConfigWithDllReference(),
+        basicConfig(),
         devSassToCss(),
     ]);
 }
 
 function devConfig(bundleUrlPrefix) {
     return merge([
-        basicConfigWithDllReferenceAndSassCompilation(),
+        basicConfigWithSassCompilation(),
         devEntrypoint(bundleUrlPrefix),
+        htmlWebpackPlugin(),
     ]);
 }
 
 module.exports = {
-    basicConfigWithDllReference,
-    resolveAliases,
     basicConfig,
+    resolveAliases,
     devConfig,
     devServerWithSourcemaps,
     sourceMaps,
