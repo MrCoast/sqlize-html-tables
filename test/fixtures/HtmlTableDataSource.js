@@ -318,4 +318,4 @@ export default {
     tableWithoutTheadAndNonEqualColumnsCount,
     tableWithTbodyWithoutAnyRows,
     tableWithoutTbodyWithoutAnyRows,
-}
+};

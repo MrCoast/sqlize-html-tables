@@ -23,5 +23,5 @@ module.exports = {
     BOOTSTRAP_FILES_PATH,
     SASS_PATH,
     TYPINGS_PATH,
-    TESTS_PATH
+    TESTS_PATH,
 };

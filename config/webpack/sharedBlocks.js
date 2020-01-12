@@ -1,9 +1,8 @@
 'use strict';
 
-const webpack = require('webpack');
 const path = require('path');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const merge = require('webpack-merge');

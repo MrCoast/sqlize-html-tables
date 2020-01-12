@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --config config/webpack/development/webpack.config.js",
     "build-prod": "NODE_ENV=production node --max_old_space_size=2048 ./node_modules/webpack/bin/webpack.js --config config/webpack/production/webpack.config.js -p",
-    "lint": "./node_modules/.bin/eslint config/* src/* test/* typings/* && ./node_modules/.bin/tslint config/* src/* test/* typings/*",
+    "lint": "./node_modules/.bin/eslint config/*.js{,x} src/*.js{,x} test/*.js{,x} && ./node_modules/.bin/tslint config/**/*.ts{,x} src/**/*.ts{,x} test/**/*.ts{,x} typings/**/*.ts{,x}",
     "test": "./node_modules/.bin/karma start config/karma/all-tests/karma.conf.js"
   },
   "keywords": [],

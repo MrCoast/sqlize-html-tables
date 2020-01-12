@@ -39,7 +39,7 @@ function sassToCss() {
                             localIdentName: '[hash:base64:5]',
                             minimize: true,
                             sourceMap: true,
-                        }
+                        },
                     },
                     {
                         loader: 'sass-loader',

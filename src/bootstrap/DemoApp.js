@@ -6,4 +6,4 @@ import DemoApp from 'components/DemoApp';
 
 import 'scss/demo.scss';
 
-ReactDOM.render(<DemoApp></DemoApp>, document.getElementById('root'));
+ReactDOM.render(<DemoApp />, document.getElementById('root'));
