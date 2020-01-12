@@ -1,6 +1,6 @@
 const path = require('path');
 const webpackConfig = require('../webpack/test/webpack.config.js');
-const { TESTS_PATH, DIST_PATH } = require('../paths.js');
+const { TESTS_PATH } = require('../paths.js');
 
 const entrypointPath = path.resolve(TESTS_PATH, 'entrypoint.js');
 
@@ -12,13 +12,12 @@ module.exports = (config) => {
 
         // list of files / patterns to load in the browser
         files: [
-            path.resolve(DIST_PATH, 'vendors.js'),
             entrypointPath,
         ],
 
         preprocessors: {
             [entrypointPath]: ['webpack', 'sourcemap'],
-            [path.resolve(TESTS_PATH, 'stubs', '**/*.js')]: ['webpack', 'sourcemap'],
+            [path.resolve(TESTS_PATH, '**/*.js')]: ['webpack', 'sourcemap'],
         },
 
         webpack: webpackConfig,
