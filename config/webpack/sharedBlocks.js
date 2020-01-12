@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const path = require('path');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const merge = require('webpack-merge');
 const {
@@ -225,17 +225,15 @@ function devSassToCss() {
                 include: [
                     SASS_PATH,
                 ],
-                use: ExtractTextPlugin.extract({
-                    use: [{
-                        loader: 'css-loader',
-                    }, {
-                        loader: 'sass-loader',
-                    }],
-                }),
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader',
+                ],
             }],
         },
         plugins: [
-            new ExtractTextPlugin('[name].css'),
+            new MiniCssExtractPlugin('[name].css'),
         ],
     };
 }

@@ -138,9 +138,7 @@ export default class HtmlTableDataSource implements IDataSource {
      * of the table.
      */
     private generateDummyColumnNames() {
-        return Array
-            .apply(null, { length: this.parseHtmlTableService.getTableColumnsCount() })
-            .map(Number.call, Number)
+        return (new Array<number>(this.parseHtmlTableService.getTableColumnsCount()))
             .map((item: number) => `c_${item + 1}`);
     }
 

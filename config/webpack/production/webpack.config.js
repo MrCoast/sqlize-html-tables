@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const merge = require('webpack-merge');
 const { basicConfig, sourceMaps } = require('../sharedBlocks.js');
 const { DIST_PATH, BOOTSTRAP_FILES_PATH, SASS_PATH } = require('../../sharedPaths.js');
@@ -31,29 +31,28 @@ function sassToCss() {
                 include: [
                     SASS_PATH,
                 ],
-                use: ExtractTextPlugin.extract({
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                localIdentName: '[hash:base64:5]',
-                                minimize: true,
-                                sourceMap: true,
-                            },
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            localIdentName: '[hash:base64:5]',
+                            minimize: true,
+                            sourceMap: true,
+                        }
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            outputStyle: 'collapsed',
+                            sourceMap: true,
                         },
-                        {
-                            loader: 'sass-loader',
-                            options: {
-                                outputStyle: 'collapsed',
-                                sourceMap: true,
-                            },
-                        },
-                    ],
-                }),
+                    },
+                ],
             }],
         },
         plugins: [
-            new ExtractTextPlugin('[name].css'),
+            new MiniCssExtractPlugin('[name].css'),
         ],
     };
 }
