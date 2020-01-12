@@ -138,8 +138,10 @@ export default class HtmlTableDataSource implements IDataSource {
      * of the table.
      */
     private generateDummyColumnNames() {
-        return (new Array<number>(this.parseHtmlTableService.getTableColumnsCount()))
-            .map((item: number) => `c_${item + 1}`);
+        return Array
+            .apply(null, { length: this.parseHtmlTableService.getTableColumnsCount() } as number[])
+            .map(Number.call, Number)
+            .map((item: unknown) => `c_${item as number + 1}`);
     }
 
     private isValidRelationalTable() {

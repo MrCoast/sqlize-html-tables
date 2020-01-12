@@ -5,4 +5,4 @@ if ! [[ $(docker ps -q --filter="name=sqlizehtmltables_webpack_1") ]]; then
     exit 1
 fi
 
-docker exec -it $(docker ps -q --filter="name=sqlizehtmltables_webpack_1") node_modules/grunt/bin/grunt karma:all
+docker exec -it sqlizehtmltables_webpack_1 bash -c "cd /app && yarn test"

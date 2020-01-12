@@ -8,6 +8,7 @@ module.exports = (config) => {
     const karmaConfig = {
         plugins: ['karma-*'],
         frameworks: ['jasmine'],
+        browsers: ['PhantomJS'],
 
         // list of files / patterns to load in the browser
         files: [
