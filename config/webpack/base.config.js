@@ -16,7 +16,7 @@ const {
     SASS_PATH,
     TYPINGS_PATH,
     TESTS_PATH,
-} = require('../sharedPaths.js');
+} = require('../paths.js');
 
 function devEntrypoint(bundleUrlPrefix) {
     return {

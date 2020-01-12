@@ -3,8 +3,8 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const merge = require('webpack-merge');
-const { basicConfig, sourceMaps } = require('../sharedBlocks.js');
-const { DIST_PATH, BOOTSTRAP_FILES_PATH, SASS_PATH } = require('../../sharedPaths.js');
+const { basicConfig, sourceMaps } = require('../base.config.js');
+const { DIST_PATH, BOOTSTRAP_FILES_PATH, SASS_PATH } = require('../../paths.js');
 
 function allEntries() {
     return {

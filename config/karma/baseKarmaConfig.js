@@ -1,6 +1,6 @@
 const path = require('path');
 const webpackConfig = require('../webpack/test/webpack.config.js');
-const { TESTS_PATH, DIST_PATH } = require('../sharedPaths.js');
+const { TESTS_PATH, DIST_PATH } = require('../paths.js');
 
 const entrypointPath = path.resolve(TESTS_PATH, 'entrypoint.js');
 

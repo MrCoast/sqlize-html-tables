@@ -2,8 +2,8 @@
 
 const path = require('path');
 const merge = require('webpack-merge');
-const { basicConfig, sourceMaps } = require('../sharedBlocks.js');
-const { TESTS_PATH } = require('../../sharedPaths.js');
+const { basicConfig, sourceMaps } = require('../base.config.js');
+const { TESTS_PATH } = require('../../paths.js');
 
 function additionalAliases() {
     return {

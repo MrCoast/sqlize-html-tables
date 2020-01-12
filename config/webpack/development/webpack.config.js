@@ -1,7 +1,7 @@
 'use strict';
 
 const merge = require('webpack-merge');
-const { devConfig, devServerWithSourcemaps } = require('../sharedBlocks.js');
+const { devConfig, devServerWithSourcemaps } = require('../base.config.js');
 
 const bundleUrlPrefix = '/';
 
