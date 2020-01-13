@@ -5,6 +5,12 @@ const merge = require('webpack-merge');
 const { basicConfig, sourceMaps } = require('../base.config.js');
 const { TESTS_PATH } = require('../../paths.js');
 
+function modeSettings() {
+    return {
+        mode: 'production',
+    };
+}
+
 function additionalAliases() {
     return {
         resolve: {
@@ -36,4 +42,5 @@ module.exports = merge([
     }),
     additionalAliases(),
     injectifyLoader(),
+    modeSettings(),
 ]);
