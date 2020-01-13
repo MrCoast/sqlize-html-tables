@@ -1,0 +1,7 @@
+version: '3'
+services:
+    webpack_build_extension:
+        image: node:12
+        volumes:
+            - .:/app
+        command: bash -c "cd /app && yarn install && yarn build-prod"

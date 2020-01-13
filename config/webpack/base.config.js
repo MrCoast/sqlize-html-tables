@@ -11,7 +11,6 @@ const {
     SOURCE_PATH,
     CONFIG_PATH,
     NODE_MODULES_PATH,
-    DIST_PATH,
     BOOTSTRAP_FILES_PATH,
     SASS_PATH,
     TYPINGS_PATH,
@@ -37,7 +36,6 @@ function devServer(host, port, bundleUrlPrefix) {
             host,
             port,
             publicPath: bundleUrlPrefix,
-            contentBase: DIST_PATH,
             inline: false,
             compress: true,
         },
@@ -216,7 +214,7 @@ function nodeFeatures() {
     };
 }
 
-function devSassToCss() {
+function sassToCss(isDevMode = false) {
     return {
         module: {
             rules: [{
@@ -226,8 +224,24 @@ function devSassToCss() {
                 ],
                 use: [
                     MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'sass-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: !!isDevMode,
+                            modules: isDevMode ? false : {
+                                localIdentName: '[hash:base64:5]',
+                            },
+                        },
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sourceMap: !!isDevMode,
+                            sassOptions: {
+                                outputStyle: isDevMode ? 'expanded' : 'collapsed',
+                            },
+                        },
+                    },
                 ],
             }],
         },
@@ -235,6 +249,10 @@ function devSassToCss() {
             new MiniCssExtractPlugin('[name].css'),
         ],
     };
+}
+
+function devSassToCss() {
+    return sassToCss(true);
 }
 
 function basicConfig(options = {}) {
@@ -281,4 +299,5 @@ module.exports = {
     devConfig,
     devServerWithSourcemaps,
     sourceMaps,
+    sassToCss,
 };
