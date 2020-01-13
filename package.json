@@ -2,6 +2,7 @@
   "name": "sqlize-html-tables",
   "version": "1.0.0",
   "description": "SQLize HTML tables",
+  "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --config config/webpack/development/webpack.config.js",
     "build-prod": "NODE_ENV=production node --max_old_space_size=2048 ./node_modules/webpack/bin/webpack.js --config config/webpack/production/webpack.config.js -p",

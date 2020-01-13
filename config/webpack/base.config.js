@@ -190,7 +190,7 @@ function htmlWebpackPlugin() {
         {
             plugins: [
                 new HtmlWebpackPlugin({
-                    template: 'htdocs/index.html',
+                    template: 'htdocs/demo.html',
                     chunks: [
                         'demo',
                     ],
