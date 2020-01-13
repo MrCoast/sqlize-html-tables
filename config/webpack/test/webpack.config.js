@@ -17,7 +17,6 @@ function additionalAliases() {
             alias: {
                 test: path.resolve(TESTS_PATH),
                 fixtures: path.resolve(TESTS_PATH, 'fixtures'),
-                stubs: path.resolve(TESTS_PATH, 'stubs'),
             },
         },
     };
