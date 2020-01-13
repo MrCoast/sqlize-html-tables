@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Modal from 'react-responsive-modal';
 import sql from 'sql.js';
-import SqlSelectResult from 'components/SqlSelectResult';
+import SqlSelectResult from 'components/demo/SqlSelectResult';
 import sqlService from 'services/SqlService';
 
 interface ISqlRunnerProps {

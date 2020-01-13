@@ -1,6 +1,6 @@
 import * as React from 'react';
-import SqlRunner from 'components/SqlRunner';
-import DemoHtmlTable from 'components/DemoHtmlTable';
+import SqlRunner from 'components/demo/SqlRunner';
+import DemoHtmlTable from 'components/demo/DemoHtmlTable';
 
 class App extends React.Component {
     public render() {

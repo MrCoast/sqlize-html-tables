@@ -8,7 +8,7 @@ const { DIST_PATH, BOOTSTRAP_FILES_PATH } = require('../../paths.js');
 function allEntries() {
     return {
         entry: {
-            extension: path.resolve(BOOTSTRAP_FILES_PATH, 'DemoApp.js'),
+            extension: path.resolve(BOOTSTRAP_FILES_PATH, 'Extension.js'),
         },
     };
 }
