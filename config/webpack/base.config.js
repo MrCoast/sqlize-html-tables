@@ -228,9 +228,6 @@ function sassToCss(isDevMode = false) {
                         loader: 'css-loader',
                         options: {
                             sourceMap: !!isDevMode,
-                            modules: isDevMode ? false : {
-                                localIdentName: '[hash:base64:5]',
-                            },
                         },
                     },
                     {
@@ -238,7 +235,7 @@ function sassToCss(isDevMode = false) {
                         options: {
                             sourceMap: !!isDevMode,
                             sassOptions: {
-                                outputStyle: isDevMode ? 'expanded' : 'collapsed',
+                                outputStyle: isDevMode ? 'expanded' : 'compressed',
                             },
                         },
                     },
