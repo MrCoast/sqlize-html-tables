@@ -13,8 +13,10 @@ import {
     Typography,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import sql from 'sql.js';
 import sqlService from 'services/SqlService';
 import HtmlTablesDataImportStrategy from 'data-import-strategies/HtmlTablesDataImportStrategy';
+import SqlSelectResult from 'components/demo/SqlSelectResult';
 
 const useStyles = makeStyles(() => ({
     appContainer: {
@@ -37,6 +39,8 @@ export default function MainPopup() {
     const classes = useStyles();
 
     const [pageDOMContent, setPageDOMContent] = React.useState('');
+    const sqlQueryTextareaRef = React.createRef();
+    const [sqlSelectResult, setSqlSelectResult] = React.useState<sql.IDatabaseSelectResult | null>(null);
 
     const onScanPageClick = () => {
         chrome.tabs.executeScript({
@@ -68,6 +72,24 @@ export default function MainPopup() {
         return availableSqlTablesSummary;
     };
 
+    const onRunSqlClick = () => {
+        const codeTextArea = sqlQueryTextareaRef.current as HTMLTextAreaElement;
+        const sqlCode = codeTextArea!.value;
+
+        try {
+            const selectResult = sqlService.execSql(sqlCode)[0];
+
+            if (!selectResult) {
+                throw new Error('No SQL query was executed.');
+            }
+
+            console.log(selectResult);
+            setSqlSelectResult(selectResult);
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
     return (
         <div className={classes.appContainer}>
             <AppBar position="sticky">
@@ -90,9 +112,17 @@ export default function MainPopup() {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <table style={{width: '100%'}}>
-                        <tr><td><TextField variant="outlined" multiline rowsMax="4" rows="2" placeholder="SELECT * FROM table_1" style={{width: '100%'}} /></td></tr>
-                        <tr><td><Button variant="contained" color="primary">Run SQL</Button></td></tr>
+                        <tr><td><TextField inputRef={sqlQueryTextareaRef} variant="outlined" multiline rowsMax="4" rows="2" placeholder="SELECT * FROM table_1" style={{width: '100%'}} /></td></tr>
+                        <tr><td><Button onClick={onRunSqlClick} variant="contained" color="primary">Run SQL</Button></td></tr>
                     </table>
+                </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel defaultExpanded>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography variant="subtitle1">SQL Result</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                    { sqlSelectResult && <SqlSelectResult selectResult={sqlSelectResult} /> }
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         </div>
