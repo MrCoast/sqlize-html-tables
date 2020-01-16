@@ -53,3 +53,7 @@ export function normalizeFloatString(value: string) {
         .replace(/,/g, '.')
         .replace(/\+/g, '');
 }
+
+export function escapeStringForSql(value: string) {
+    return value.replace(/'/g, `''`);
+}

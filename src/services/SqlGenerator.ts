@@ -1,4 +1,5 @@
-import { IColumnDefinition } from 'database/data-sources//DataSource';
+import { IColumnDefinition } from 'database/data-sources/DataSource';
+import * as stringHelpers from 'helpers/StringHelpers';
 
 export function generateCreateTableSQL(tableName: string, columnDefinitions: IColumnDefinition[]) {
     const columnsPart = columnDefinitions
@@ -10,8 +11,12 @@ export function generateCreateTableSQL(tableName: string, columnDefinitions: ICo
 
 export function generateInsertDataSQL(tableName: string, data: any[][]) {
     return data
-        .map((row) => (
-            `INSERT INTO ${tableName} VALUES (${row.map((cell) => `'${cell}'`).join(', ')});`
-        ))
+        .map((row) => {
+            const valuesPart = row.map(
+                (cell) => `'${stringHelpers.escapeStringForSql(cell)}'`,
+            ).join(', ');
+
+            return `INSERT INTO ${tableName} VALUES (${valuesPart});`;
+        })
         .join('\n');
 }

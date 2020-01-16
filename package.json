@@ -14,12 +14,14 @@
     "@material-ui/core": "^4.8.3",
     "@material-ui/icons": "^4.5.1",
     "babel-polyfill": "^6.26.0",
+    "jquery": "^3.4.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "sql.js": "github:kripken/sql.js#9e69650ae099f9d5130ca5f7bea4fd19a9b41d5a",
     "transliteration": "^2.1.8"
   },
   "devDependencies": {
+    "@types/jquery": "^3.3.31",
     "@types/node": "^12.12.6",
     "@types/prop-types": "^15.7.3",
     "@types/react": "^16.9.17",

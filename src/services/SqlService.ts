@@ -1,24 +1,29 @@
 import database from 'database/DatabaseWrapper';
-import ImportDataService from 'services/ImportDataService';
-import HtmlTableDataSource from 'database/data-sources/HtmlTableDataSource';
-import DemoDataSource from 'database/data-sources/DemoDataSource';
+import { IDataImportStrategy } from 'data-import-strategies/DataImportStrategy';
 
 class SqlService {
-    constructor() {
-        setTimeout(() => this.init(), 1000);
-    }
-
-    public init() {
-        const htmlTable = document.getElementById('test-table') as HTMLTableElement;
-        const importHtmlTableDataService = new ImportDataService(new HtmlTableDataSource(htmlTable));
-        importHtmlTableDataService.importData();
-
-        const importDemoDataService = new ImportDataService(new DemoDataSource());
-        importDemoDataService.importData();
+    public importData(dataImportStrategy: IDataImportStrategy) {
+        dataImportStrategy.import();
     }
 
     public execSql(sql: string) {
         return database.exec(sql);
+    }
+
+    public getAvailableTables() {
+        return this
+            .execSql(`SELECT name FROM sqlite_master WHERE type='table'`)[0]
+            .values
+            .map((row) => row[0] as string);
+    }
+
+    public getColumnsInTable(tableName: string) {
+        const sql = `PRAGMA table_info([${tableName}])`;
+
+        return this
+            .execSql(sql)[0]
+            .values
+            .map((row) => `${row[1]} ${row[2]}`);
     }
 }
 
