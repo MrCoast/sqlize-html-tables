@@ -72,7 +72,7 @@ export default function MainPopup() {
                 .join(`\n`);
 
             return `${sqlTableName}\n${columnsSummary}`;
-        }).join(`\n`);
+        }).join(`\n\n`);
 
         return availableSqlTablesSummary;
     };
