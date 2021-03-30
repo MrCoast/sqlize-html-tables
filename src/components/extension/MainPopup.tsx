@@ -1,5 +1,4 @@
-// import * as $ from 'jquery';
-const $ = require('jquery');
+const $ = require('jquery'); // tslint:disable-line
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -43,12 +42,19 @@ export default function MainPopup() {
     const [sqlSelectResult, setSqlSelectResult] = React.useState<sql.IDatabaseSelectResult | null>(null);
 
     const onScanPageClick = () => {
-        chrome.tabs.executeScript({
-            code: '(' + fetchDOM + ')();',
-        }, (results: any[]) => {
-            const r = processPageDOMContent(results[0]);
-            setPageDOMContent(r);
-        });
+        // extension mode
+        if (chrome && chrome.tabs && chrome.tabs.executeScript) {
+            chrome.tabs.executeScript({
+                code: '(' + fetchDOM + ')();',
+            }, (results: any[]) => {
+                setPageDOMContent(processPageDOMContent(results[0]));
+            });
+
+            return;
+        }
+
+        // demo page mode
+        setPageDOMContent(processPageDOMContent(fetchDOM()));
     };
 
     const processPageDOMContent = (domContent: string) => {
@@ -67,7 +73,6 @@ export default function MainPopup() {
 
             return `${sqlTableName}\n${columnsSummary}`;
         }).join(`\n`);
-        console.log(availableSqlTablesSummary);
 
         return availableSqlTablesSummary;
     };
@@ -83,7 +88,6 @@ export default function MainPopup() {
                 throw new Error('No SQL query was executed.');
             }
 
-            console.log(selectResult);
             setSqlSelectResult(selectResult);
         } catch (e) {
             console.error(e);
@@ -103,7 +107,7 @@ export default function MainPopup() {
                     <Typography variant="subtitle1">Available tables</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <TextField variant="outlined" multiline rowsMax="4" rows="4" placeholder="table_1 (id, first_name, last_name)" value={pageDOMContent} style={{width: '100%'}} />
+                    <TextField variant="outlined" multiline rowsMax="4" rows="4" placeholder="table_1 (id, first_name, last_name)" value={pageDOMContent} style={ { width: '100%' } } />
                 </ExpansionPanelDetails>
             </ExpansionPanel>
             <ExpansionPanel defaultExpanded>
@@ -111,8 +115,8 @@ export default function MainPopup() {
                     <Typography variant="subtitle1">Run SQL query</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <table style={{width: '100%'}}>
-                        <tr><td><TextField inputRef={sqlQueryTextareaRef} variant="outlined" multiline rowsMax="4" rows="2" placeholder="SELECT * FROM table_1" style={{width: '100%'}} /></td></tr>
+                    <table style={ { width: '100%' } }>
+                        <tr><td><TextField inputRef={sqlQueryTextareaRef} variant="outlined" multiline rowsMax="4" rows="2" placeholder="SELECT * FROM table_1" style={ { width: '100%' } } /></td></tr>
                         <tr><td><Button onClick={onRunSqlClick} variant="contained" color="primary">Run SQL</Button></td></tr>
                     </table>
                 </ExpansionPanelDetails>
