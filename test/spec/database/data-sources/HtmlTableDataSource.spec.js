@@ -16,7 +16,11 @@ describe('HtmlTableDataSource', function () {
     describe('method getTableName', function () {
         repeatTestForEachFixture(htmlTableFixtures, (fixtureKey, fixture, dataSource) => {
             it(`should return correct SQL table name for ${fixtureKey} table`, function () {
-                expect(dataSource.getTableName()).toBe(fixture.expectedSqlTableName);
+                if (fixture.expectedSqlTableName) {
+                    expect(dataSource.getTableName()).toBe(fixture.expectedSqlTableName);
+                } else if (fixture.expectedSqlTableNameRegexp) {
+                    expect(dataSource.getTableName()).toMatch(fixture.expectedSqlTableNameRegexp);
+                }
             });
         });
     });

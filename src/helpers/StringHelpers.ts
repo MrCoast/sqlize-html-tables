@@ -9,6 +9,10 @@ export function textToSqlIdentifier(text: string) {
         .replace(/_+/g, '_')
         .replace(/^_|_$/g, '');
 
+    if (potentialResult.length > 30) {
+        potentialResult = potentialResult.slice(0, 25) + '_' + getRandomHash();
+    }
+
     if (/^\d/.test(potentialResult)) {
         potentialResult = 'i_' + potentialResult;
     }

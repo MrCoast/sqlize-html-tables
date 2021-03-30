@@ -3,7 +3,7 @@ import { ColumnType } from 'database/data-sources/DataSource';
 
 const fullyDefinedTable = {
     tableHtml: htmlTables.fullyDefinedTable,
-    expectedSqlTableName: 'id_first_name_last_name_favorite_int_number_string_with_numbers_favorite_float_number',
+    expectedSqlTableNameRegexp: /^id_first_name_last_name_f_[\d\w]+/,
     expectedSqlTableColumnDefinitions: [
         {
             columnName: 'id',
